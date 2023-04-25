@@ -1,0 +1,18 @@
+---
+- name: conf firewall
+  hosts: all
+  become: true
+
+  tasks:
+    - name: update
+      yum:
+        update_cache: true
+    - name: install firewalld
+      yum:
+        name: firewalld
+        state: latest
+    - name: permit traffic from port
+      ansible.posix.firewalld:
+        port: "{{ port_var }}"
+        permanent: true
+        state: enabled

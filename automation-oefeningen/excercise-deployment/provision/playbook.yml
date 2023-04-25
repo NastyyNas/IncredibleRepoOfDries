@@ -1,0 +1,28 @@
+---
+- name: Deploy Python Flask App on Ubuntu
+  hosts: all
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+    
+    - name: Install Python 3 and pip
+      apt:
+        name:
+          - python3
+          - python3-pip
+        state: present
+    
+    - name: Copy app files
+      copy:
+        src: /home/dries/ansible_playbooks/automation-2223/excercise-deployment/hello.py
+        dest: ./hello.py
+    
+    - name: Install Flask
+      pip:
+        name: flask
+        state: present
+    
+    - name: Start Flask App
+      shell: nohup python3 ./hello.py &

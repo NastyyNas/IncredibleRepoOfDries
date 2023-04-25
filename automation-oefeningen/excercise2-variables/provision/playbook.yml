@@ -1,0 +1,11 @@
+---
+- name: isntall apache
+  hosts: all
+  become: true
+
+  tasks:
+    - name: install apache
+      become: true
+      package:
+        name: "{{ apache_var }}"
+        state: latest
