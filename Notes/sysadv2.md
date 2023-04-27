@@ -1,4 +1,4 @@
-# System Advanced ||
+# System Advanced II
 ## Kernel
 ## systemd
 ### what is systemd?
@@ -6,3 +6,13 @@
  - main goal: unify service config and behavior across linux distro's
  - provides a system and service manager that runs as PID1 and starts the rest of the system
  - provices replacements for various daemons and utilities, including device management, login management, network connection management, and event logging.
+
+### what does systemd do?
+takes care of boot and all types of services
+
+### practical targets
+ - graphical.target
+ - multi-user.target
+ - rescue.target
+ - reboot.target
+ 
