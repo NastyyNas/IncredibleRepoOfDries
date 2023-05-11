@@ -1,6 +1,4 @@
-# System Advanced II
-## Kernel
-## systemd
+# systemd
 ### what is systemd?
  - open-source software that provides system components for linux
  - main goal: unify service config and behavior across linux distro's
@@ -15,4 +13,27 @@ takes care of boot and all types of services
  - multi-user.target
  - rescue.target
  - reboot.target
+
+# Booting Linux
+## legacy BIOS
+### begrippen
+- POST: power-on self-test
+- UEFI: Unified Firmware Interface
+- MBR: Master Boot Record
+
+UEFI nieuwere versie van BIOS. Heeft dezelfde functie.
+
+![BIOS vs UEFI](Images/BIOSvsUEFI.png)
+
+technical advantages of using UEFI:
+- Secure Boot
+- GUID Partition Table (GPT)
+- Platform and architecture Independence
+- Consistend Variables and Services
+- Modular and Extensible
+- Improved Boot Performance
+
+## UEFI: Enhancing Bootloader Functionality and Flexibility
+
+![ArchitectureUEFI](Images/ArchitectureUEFI.png)
  
