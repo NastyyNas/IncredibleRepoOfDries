@@ -260,6 +260,21 @@ Socket are generally employed in client-server applications
  
  Each socket has a specific address, composed of an IP address and a port number.
 
+# Routing
+### terminologie
+**Routing** is the process of selecting a path for traffic in a network or between or across multiple networks.
+
+**Packet forwarding** is the transit of network packets from one network interfce to another.
+
+The routing process usually directs forwarding on the basis of **routing tables**. Routing tables maintain a record of the routes to various network destinations.
+
+**IP routing** assumes that network addresses are structured and that similar addresses imply proximity within the network. Structured addresses allow a single routing table entry to represent the route to a group of devices.
+
+Routing has become the dominant form of addressing on the internet.
+
+# Firewalls
+
+
 # systemd
 ### what is systemd?
  - open-source software that provides system components for linux
