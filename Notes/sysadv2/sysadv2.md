@@ -673,26 +673,165 @@ eBPF can be used to create different types of networking programs that can be in
    - Amazon, Google and Intel support its development
    - Microsoft released XDP for Windows in 2022, licensed under MIT license.
 
+### **tracing**
+eBPF can be used to create different types of tracing programs that can capture and analyze system events:
+ - **Tracepoints:** These programs are used to trace events that are triggered by the kernel or user space applications.
+ - **Kprobes:** These programs are used to trace events that occur within the kernel, such as function calls or variable accesses.
+ - **Uprobes:** These programs are used to trace events that occur within user space applications, such as function calls or system calls.
+
+
+
 # systemd
-### what is systemd?
+### **what is systemd?**
  - open-source software that provides system components for linux
  - main goal: unify service config and behavior across linux distro's
  - provides a system and service manager that runs as PID1 and starts the rest of the system
  - provices replacements for various daemons and utilities, including device management, login management, network connection management, and event logging.
 
+### **Issues with traditional init systems**
+**Slow boot times:** limited in their ability to parallelize service startup.
+
+**Service dependencies:** managing dependencies could be complex and error-prone, leading to system instability.
+
+**Limited logging and monitoring:** difficult to diagnose and troubleshoot system issues.
+
+**Inconsistent system behavior:** different Linux Distributions had different init systems.
+
+**Limited security features:** difficult to isolate and protect system processes and resources
+
+### **Advantages**
+**Faster boot times** and improved system responsiveness duo to parallelized service startup and dependency management.
+
+**Centralized and unified management of system services, sessions and devices**, making it easier to manage and troubleshoot system issues.
+
+**improved security features**, such as process sandboing and user isolation.
+
+**Extensive logging capabilities** and real-time monitoring of system activity.
+
+### **Disadvantages**
+Complexity and steep learning curve due to its extensive features and modular architecture
+
+Resistance from some users and developers who prefer traditional init systems or see systemd as too tightly integrated into the linux ecosystem.
+
+Concerns over system stability and reliability, particularly in the even tof systemd failures or bugs.
+
+over-engineerd?
+
+Limited support for non-Linux platforms.
+
+### **Features**
+provides aggressive parallelization capabilities
+
+uses socket and D-Bus activation for starting services
+
+offers on-demand starting of daemons
+
+keeps track of processes using Linux control groups
+
+maintains mount and automount points
+
+implements an elaborate transactional dependency-based service control logic.
+
+includes a logging daemon (journald)
+
+control basic system configuration like the hostname, date,locale
+
+maintain list of
+ - logged-in users
+ - running containers
+ - virtual machines
+ - system accounts
+ - runtime directories and settings
+
+daemons to manage simple network configuration, network time synchronization, log forwarding and name resolution.
+
+**cgroups** (control groups) is a linux kernel fearture that limits, accounts for, and isolates the resource usage of a collection of processes invented by Google.
+
+### **systemd has PID1**
+started by the kernel before all other processes
+
+the first process (PID 1) has a special role in Unix systems: it replaces the parent of a process when the original parent terminates.
+
+parent process for all those other processes that have nobody else as a parent
+
+systemd is a daemon that manages other daemons, which, including systemd itself, are background processes
+ - responsible for bringing up and maintaining user space during boot
+ - systemd is the first daemon to start during booting and the last daemon to terminate during shutdown
+ - for inter-process communication, systemd makes Unix domain sockets and D-Bus available to the running daemons.
+
+ ### **Units**
+ systemd units are configuration files that define system resources and services managed by the systemd init system
+
+ systemd supports several types of units, each designed for a specific purpose
+
+ systemd unit files are usually stored in the **/etc/systemd/system/, /lib/systemd/system/ or (/usr)/lib/systemd/system/** directories
+
+ The most common types of systemd units include:
+  - Service units: define system services and daemons
+  - Target units: define dependencies and groups of services that are started or stopped toghether
+  - Timer units: define scheduled tasks and jobs
+  - Device units: define hardware devices and their attributes
+  - Mount units: define filesystem mounts
+  - Socket units: define network sockets
+
+### **timers**
+Timers and cron jobs are used to schedule and automate tasks on linux systems
+ - systemd timers are more flexible and powerful, with support for more complex scheduling and dependencies
+ - Cron jobs are simpler and more widely supported across different linux distributions.
+
+systemd provides its own timer system, which is an alternative to the traditional cron system.
+
+systemd timers are units that define when a certain task should be run.
+
+they are similar to systemd services, ut instead of running a service, they trigger an action or command
+
+Timers can be configured to run once, repeatedly at specific intervals, or at specific times of day.
+
+### **targets**
+systemd targets are collections of system services and resources that are needed to achieve a specific system rate, such as multi-user mode or graphical user interface mode.
+
+Target units define groups of services that are started or stopped together.
+
+Like other unit types, targets units have their own unit files with a .target extension. These files contain configuration details, dependenciesn, and relationships with other units.
+
+Target units can have dependencies on other target units, service units, or other types of units, making it easier to manage service startup and shutdown.
+
+Targets are similar to runlevels in traditional init systems, but they are more flexible and powerful.
+
+### **types of targets**
+
+**Basic targets:** These are the most fundamental targets and include boot, shutdown, rescue, and emergency targets.
+
+**Service targets:** These targets start or stop a specific service or group of services.
+
+**Slice targets:** These targets used to group processes based on their resource usage.
+
+**multi-user targets:** These targets provide a full system with a graphical user interface
+
+other target: other targets include network, remote-fs, and time-sync targets.
+
+### **changing targets**
+Changing systemd targets can be done using the systemctl command.
+
+To change to a specific target, use the command: systemctl isolate <target_name>
+
+To set a default target for the system, use the command: systemctl set-default <target_name>
+
+The defaut target is the target that the system will boot into.
+
+### **practical targets**
+**graphical.target:** represents the runlevel where the system is running with a graphical interface, such as a desktop environment.
+
+**multi-user.target:** Represents a runlevel where system is running in a non-graphical, multi-user mode with networking enabled.
+
+**rescue.target:** Represents a runlevel for performing system mainenance and recovery tasks in single-user mode
+
+**reboot.target:** Represents a runlevel for shutting down and rebooting the system.
 
 
-### what does systemd do?
-takes care of boot and all types of services
-
-### practical targets
- - graphical.target
- - multi-user.target
- - rescue.target
- - reboot.target
 
 # Booting Linux
-## legacy BIOS
+## legacy BIOS**
 ### begrippen
 - POST: power-on self-test
 - UEFI: Unified Firmware Interface
