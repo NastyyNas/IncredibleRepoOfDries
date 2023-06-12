@@ -261,7 +261,7 @@ Socket are generally employed in client-server applications
  Each socket has a specific address, composed of an IP address and a port number.
 
 # Routing
-### terminologie
+### **terminologie**
 **Routing** is the process of selecting a path for traffic in a network or between or across multiple networks.
 
 **Packet forwarding** is the transit of network packets from one network interfce to another.
@@ -273,7 +273,405 @@ The routing process usually directs forwarding on the basis of **routing tables*
 Routing has become the dominant form of addressing on the internet.
 
 # Firewalls
+### **Functions of a Firewall**
+Protects the host system from unauthorized connections.
+ - blocks connections to services that should not be public
+ - Enables restriction of connections to certain IP address ranges
 
+Rewrites packet headers to route packets between networks.
+ - Enables to machine to function as a network router.
+ - Most consumer and business "router" devices are just small computers running a firewall with routing capabilities.
+
+### **advanced Firewall functions**
+Firewalls may implement additional features
+ - Network Address Translation (NAT)
+ - Quality of Service (QoS) 
+
+### **iptables and netfilter
+iptables is a user space to the linux kernel's netfilter system.
+
+netfilter implements firewall and routing capabilities within the kernel, enabling any Linux machine or device to act as a firewall and/or a router.
+
+### **iptables and netfilter features**
+iptables is a user space interface to the linux kernel's netfilter system.
+ - listing the contents of the packet filter ruleset
+ - adding/removing/modifying rules in the packet filter ruleset
+ - listing/zeroing per-rule counters of the packet filter ruleset.
+
+netfilter implements firewall and routing capabilities within the kernel, enabling any linux machine or device to act as a firewall and/or a router.
+ - stateless packet filtering
+ - stateful packet filtering
+ - all kinds of network address and port translation, e.g. NAT
+ - flexible and extensible infrastructure
+ - multiple layers of API's for 3rd party extensions
+
+### **iptables architecture**
+**iptables is the user space interface to the linux kernel firewall.**
+
+iptables service is a systemd service that uses the iptables tool to interact with the kernel netfilter framework.
+
+iptables is a linux user space command line tool that manipulates the IPv4 network packet filtering tables and rules.
+
+![iptables architecture](Images/iptablesArchitecture.png)
+
+### **nftables**
+the netfilter project has created nftables
+ - positioned as a replacement for iptables
+ - Completely different configuration syntax
+ - as of october 2021, nftables is the default firewall backend for Ubuntu
+
+iptables will be available for a long period of time in the future, even if nftables matures.
+
+### **netfilter: how packets are processed
+When packets arrive from the network, the netfilter component of the linux kernel recognizes and groups packets into streams or flows.
+ - netfilter performs Stateful Packet Inspection (SPI), which analyzes both packet headers and packet contents to track connections
+
+Each packet in a stream is processed by the firewall, with some performance optimizations
+ - for example: NAT rules are only determined for the first packet in a stream, then all subsequent packets receive the same processing.
+
+![netfilter packet traversal](Images/packet_traversal.png)
+
+### **Tables**
+An iptables table is a data structure that contains a number of chains. Several different tables are defined.
+
+The default table acted upon the tables command is "filter".
+
+![tables](Images/Tables.png)
+
+### **Chains**
+Once it is decided a packet is matched against a certain table, the packet is matched against rules contained by that tables' chains.
+ - Within a chain, a packet starts at the top (or head) of the chain and is matched rule-by-rule
+ - When a match is found, processing normally jumps to another chain or target
+
+![Chains](Images/Chains.png)
+
+### **stateless vs. stateful firewall**
+Stateless firewall
+ - packet filtering, usually only in the network layer (OSI). Sometimes there are protocols that are in a higher layer.
+
+Stateful firewall
+ - Everything a stateless firewall does
+ - Also tracks whether certain packets have been seen before in a given session and applies access policies to packets based on what has already been seen for a given connection.
+
+netfilter/iptables are statefull thanks to the conntrack table
+
+### **Conntrack use cases**
+NAT relies on the connection tracking information so that it can stranslate all packets in a flow in the same way
+ - e.g. when a pod accesses a Kubernetes service, NAT is used by kube proxy's load balancing to redirect the connection to a particular backend pod.
+
+Stateful firewalls, such as Calico, rely on the connection tracking information to exactly whitelist "response" traffic, once the outgoing connection has been established.
+
+### **Conntrack gebruiken**
+Op de router (in het lab, bv op 'web')
+ - installeer het package
+ ```bash
+         sudo apt install conntrack
+         sudo yum install conntrack
+      sudo conntrack -L
+      sudo conntrack -L --src-nat
+      man conntrack
+ ```
+
+### **Default packet-filtering policy**
+Een firewall is een device om access control policies te implementeren
+
+Je hebt 2 basis manieren om de default policy van je firewall te configureren
+ - Default DENY en dan specifieke pakketten toelaten
+  - meest aanbevolen aanpak
+  - Gemakkelijker om een veilige firewall op te zetten
+  - Je moet wel het communicatie protocol voor elke service die je wilt toelaten begrijpen
+  - Meer werk om op te zetten
+ - Default ACCEPT en dan specifieke pakketten weigeren
+  - Gemakkelijker om initieel op te zetten
+  - Je moet er aan denken om elke service die geinstalleerd wordt te blokkeren tegen misbruik
+  - Configuratie en onderhoud is meer werk
+  - minder veilig
+
+# NFS
+### **Network File System (NFS)**
+Network File System (NFS)
+
+Protocol voor een gedistribueerd file system
+
+Client computer kan via een netwerk toegang krijgen tot remote file systemen (exports) via een local mount point.
+
+Internet standaard
+
+ook ingebouwd in Windows Server
+
+![NFSsystem](Images/NFSsystem.png)
+
+### **NFS architecture**
+Linux virtual file system (vfs)
+ - software layer in the kernel that provides the filesystem interface to user space programs
+ - also provides an abstraction layer within the kernel which allows different filesystem implementations to coexist
+
+![nfsArchitecture](Images/NFSarchitecture.png)
+
+### **NFS Networking**
+NFSv3
+ - UDP / dynamic ports
+ - sneller - interessant in low-latency, super-reliable netwerken
+ - makkelijker om op te zetten
+
+NFSv4
+ - TCP/2049
+ - more reliable
+ - meer security features zoals Kerberos support
+ - file locking support
+ - complex
+
+### **NFS Server configuration**
+exports
+ - shared directory resources
+ - beschreven in /etc/exports:
+ - /export  <host>(options)
+  - bv /share1 server1.psdemo.local
+  - /export    directory die geshared wordt
+  - <host>     host of network die access hebben tot deze export
+  - (options)  opties voor die host/network
+
+exportfs - commando om runtime config tabel van exported file systems te maintainen
+ - /var/lib/nfs/etab - runtime configuratie van de exports
+
+### **NFS File Security**
+default: UID/GID security model met AUTH_SYS RPC calls
+
+gevaarlijk: UIDs en GUID kunnen overlappen
+
+Werkt goed met centralized authentication server
+
+root? (UID 0)
+ - root_squash enabled by default
+
+### **clustering begrippen**
+**quorum**: meer dan de helft van de nodes vormt een quorum of absolute meerderheid. De cluster is available zolang de available nodes quorum hebben.
+
+# Load Balancers
+### **state, stateful and determinism**
+Stateful systems
+ - Designed to remember prior events or user interactions
+ - the remembered information is called to state of the system
+ - Examples include the TCP protocol, or a stateful inspection firewall that remembers aspects of previous packets to apply customized access policies.
+
+Stateless systems
+ - have no state
+ - Examples include the HTTP and REST protocols.
+
+Determinism
+ - Refers to a system's ability to produce the same output given the same initial conditions
+ - A deterministic algorithm that, given a certain input, always produces the same output, with the underlying machine going through the same sequence of states.
+ - The output of deterministic computer program is always determined by the inputs and the state of the program.
+
+### **Finite state machine (FSM)**
+Abstract machine used to illustrate algorithms, systems, or protocols
+
+can be in exactly one of a finite number of states at any given time
+
+can transition from one state to another in response to certain inputs
+
+Defined by:
+ - A list of states
+ - the initial state
+ - the inputs that trigger each transition
+
+Can be described using:
+ - a state diagram
+ Optionally, a state transition diagram.
+
+![state transition](Images/statetransition.png)
+
+### **REST - REpresentional State Transfer (stateless)
+**stateless** betekent dat het aan de cient is om er voor te zorgen dat alle vereiste informatie aan de server wordt gegeven met elke request
+
+Software architecture style that uses a subset of HTTP
+
+Comoonly used to create interactive applications that rely on web services
+
+A web service that follows these guidelines is known as a RESTful web service
+ - offers web resources in a textual format
+   - Allows them to be read and modified using a stateless protocol
+ - Facilitates interoperablility between web services
+ - Respnds to requests to a URI of a resource with a payload in HTML, XML, JSON, or other formats
+   - includes hypertext links in the response to related resources
+ - Easy to scale because they are statless
+   - Each server can be easily replicated, activated, and ready to handle traffic
+   - No internal state to synchronize
+
+**benefits:**
+ - Separates client and server responsibilities
+ - Improves visibility, reliqbility, and scalability of the application
+ - Reduces coupling between systems
+
+**Limitations:**
+ - Lack of standardization of error handling
+ - Potential for security vulnerabilities if not implemented properly
+
+### **session-based authentication** (statefull)
+1. the server creates a session for the user after they succesfully log in.
+
+2. the session ID is then stored in a cookie on the user's browser
+
+3. As long as the user remains logged in, the cookie is sent with each subsequent request to the server.
+
+4. The server compares the session ID from the cookie with the session information stored in its memory and sends an appropriate response.
+
+![session based authentication](Images/SessionbasedAuth.png)
+
+### **Token-based authentication**
+Many RESTful web services and web applications use tokens, such as JSON Web Tokens (JWT), for authentication instead of sessions.
+
+1. the server generates a token (e.g., a JWT) with a secret and sends it to the client after succesfull authentication.
+
+2. The client stores the token locally (e.g. in a local storage or as a cookie) that includes it in the header (usually the "Authorization" header) with each subsequent request.
+
+3. The server validates the token with each client request and sends an appropriate response based onthe token's validity.
+
+The use state is not stored on the server but rather within the token on the client-side
+
+Token-based authentication is a popular choice for RESTful API's and single-page applications (SPAs) because it is stateless and easily scalable.
+
+![token based authentication](Images/tokenbasedauth.png)
+
+### **Stateless vs Stateful services
+
+![stateless vs statefull](Images/statelessvsstateful.png)
+
+### **Load balancer**
+Device or software that distributes a set of tasks across a set of resources to make processing more efficient.
+
+Provides a single internet service from multiple servers, also known as a server farm.
+
+Commonly used in HTTP request management to handle a large number of requests per second
+
+**typical features:**
+ - Asymmetric load: a ratio can be manually assigned to allocate a greater portion of the workload to some backend servers than others
+   - Distribute 60% of traffic to Server A and 40% to server B
+   - Allocate more resources to high-performic servers to handle heavier workloads
+ - Priority activation: when the number of available servers falls below a certain threshold or the load becomes too high, standby servers can be brought online.
+   - Bring additional servers online automatically during peak traffic hours
+   - Increase server capacity diring major promotional events or flash sales
+ - Health checking: polls servers to check their application layer health and removes failed servers form the server pool
+   - Monitor server health and remove failed or unhealthy servers form the load balancer pool
+   - ensure that each server can handle the required number of request and response times before it is added to the server pool.
+ - Session persistence - sticky sessions
+
+ ### **Sticky session**
+ Feature of Layer 7 load balancers
+ 
+ Incoming requests for a specific session are always directed to the same server
+
+ This can be beneficial for web applications that require persistent user sessions
+
+ Sticky sessions can result in uneven loads across servers
+
+ To avoid this, web services must either be designed to be stateless or session data must be continuously replicated across servers
+
+ Without session stickiness or proper session replication, users may experience interruptions or errors if their session is transferred to a different server in the pool.
+
+### **Reverse proxy**
+
+Service that sits in front of one or more servers, accepting requests from clients for resources located on the servers.
+
+From the client point of view, the reverse proxy appears to be the web server and so is transparent to the remote user.
+
+As all client requests pass through the proxy, it is a perfect point in a network to control traffic while also optimizing performance with compression, encryption offloading and caching.
+
+The reverse proxy is a single point of connection to services, making it an ideal place to manage traffic and improve service quality
+
+Reverse proxies are normally deployed in a highly available configuration to maximize application and service uptime.
+
+This ensures that there is no single point of failure, and that the reverse proxy can continue to operate even if one of its components fails.
+
+**typical features**
+ - Compression
+   - Compressing server responses before returning them to the client.
+   - reduces the amount of bandwith they require
+   - speeds their transit over the network
+ - SSL termination
+   - By decrypting incoming requests and encrypting server responses, the reverse prxy frees up resources on backend servers
+ - Caching
+   - Before returning the backend server's response to the client, the reverse proxy stores a copy of it locally
+   - When the client makes the same request, the reverse proxy can provide the response itself fro mthe cache instead of forwarding the request to the backend server
+   - this both decreases response time to the client and reduces the load on the backend server.
+
+A reverse proxy accepts a request from a client, forwards it to a backend origin server that can handle it, and then sends the server's response back to the client. A reverse proxy is often used in combination with a load balancer.
+
+![reverse proxy](Images/reverseproxy.png)
+
+### **Load balancing - OSI layers
+Layer4
+ - TCP or UDP pakcets
+ - routing requests based on commonly used algorithms
+ - can scale to handle large volumes of requests
+
+Layer 7
+ - Application load balancers
+ - Routing decisions based on content of application traffc
+ - good couce for a containerized microservices-based architecture
+
+ ![OSI load balancing](Images/OSILoadbalancing.png)
+
+# eBPF
+### **what is eBPF?**
+"extended Berkeley Packet Filter"
+
+Technology to write costom code that can dynamically change the way the linx kernel behaves
+
+Platform for building a whole new generation of security, observability, and networking tools
+
+Evolved from the BPF wich was originally designed for efficient packet filtering.
+
+Can now be used to instrument almost any part of the linux kernel and user space programs.
+
+### **importance**
+Adds new functionality to linux kernel without kernel modules and can be dynamically loaded without rebooting or recompiling kernel.
+
+Can hook anywhere in the kernel to modify functionality
+
+eBPF programs are sandboxed and verified for safety
+
+eBPF programs are compiled into efficient machine code usit JIT compiler, making them high-performance for network packet processing and other performance-critical applications
+
+Widely used in cloud native environments, e.g. for advanced network routing and load balancing in Kubernetes clusters.
+
+### **Components**
+Technology that enables custom code to run directrly in the linux kernel
+
+eBPF programs are written in a restricted C-like language and compiled into bytecode that runs in the eBPF virtual machine.
+
+Bytecode is loaded into the kernel and attached to various hooks, such as tracepoints, kprobes, and perf events
+
+eBPF programs are verified by the kernel 'verifier' before loading to ensure they are safe to run.
+
+eBPF programs are run whenever the associated hook is triggered
+
+eBPF programs can interact iwith eBPF maps which are key-value data structures for storing and retrieving data.
+
+![eBPF](Images/eBPF.png)
+
+### **Maps**
+Key-value data structures that allow eBPF programs to store and retrieve data in the kernel space
+
+"in-kernel database" that can be accessed by eBPF programs
+
+Can be used to share data between different eBPF programs of between eBPF programs and user space applications
+
+### **map types**
+**Hash maps:** hash table to store key-value pairs and provide fast access to data.
+
+**Array maps:** contiguous array of elements to store data and are useful for scenarios where the data is accessed sequentially.
+
+**Per-CPU maps:** similar to array maps, but provide a separate array to each CPU core in the system. Useful for scenarios where data needs to be accessed andupdated concurrently by multiple CPU cores.
+
+**LRU maps:** maintain a cache of the most recently used items and can be used to implement caching functionality in eBPF programs.
+
+### **networking**
+eBPF can be used to create different types of networking programs that can be intercept and modify network traffic:
+ - **XPD(eXpress Data Path)** is an eBPF-based high-performance data path used to send and receive network packets at high rates by bypassing most of the operating system networking stack
+   - merged in the linux kernel and licensed under GPL
+   - Amazon, Google and Intel support its development
+   - Microsoft released XDP for Windows in 2022, licensed under MIT license.
 
 # systemd
 ### what is systemd?
@@ -281,6 +679,8 @@ Routing has become the dominant form of addressing on the internet.
  - main goal: unify service config and behavior across linux distro's
  - provides a system and service manager that runs as PID1 and starts the rest of the system
  - provices replacements for various daemons and utilities, including device management, login management, network connection management, and event logging.
+
+
 
 ### what does systemd do?
 takes care of boot and all types of services
