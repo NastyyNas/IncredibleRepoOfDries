@@ -831,25 +831,54 @@ The defaut target is the target that the system will boot into.
 
 
 # Booting Linux
-## legacy BIOS**
-### begrippen
-- POST: power-on self-test
-- UEFI: Unified Firmware Interface
-- MBR: Master Boot Record
+### **UEFI explained**
+Unified Extensible Firmware Interface in short UEFI, is low-level software that starts when you boot your PC or embedded system before booting your operating system. It aims to resolve what BIOS could not.
 
-UEFI nieuwere versie van BIOS. Heeft dezelfde functie.
+UEFI is an open, active, universal specification that all major manufacturers adhere to.
+
+A UEFI can:
+ - boot from disk larger that 2 TB using GPT
+ - provide the user with a graphical user interface.
+ - provide extra securtiy, platform independence, consistency, modularity and performance.
+
+UEFI Compatibility Support Module (CSM)
+ - Enables an EFI-based computer to use BIOS-mode boot loaders. CSM is often activated in the firmware setup utility by enabling a feature called "legacy mode". BIOS, CSM, and legacy may refer to the same thing.
+
+### **Advantages**
+**Secure boot**: enforces signature checking of the boot process.
+
+**GUID Partition table (GPT)**: Support GPT replaces the obsolete Master Boot Recort (MBR) partition scheme.
+
+**Platform and Architecture Independance**: UEFI supports x86, x86_64, ARM, ARM64, POwerPC, Itanuim and other architectures.
+
+**Consistent Variables and Services**: A standardized set of variables, services, and drivers are common to all UEFI implementations regardless of the host device.
+
+**Mudular and Extensible**: UEFI formware modules can be added, removed or updated by vendors and device owners.
+
+**Improved Boot Performance**: UEFI can run in 32-bit or 64-bit mode and has more addressable address space than BIOS, which means your boot process is faster.
+
+## **linux boot process**
+Display boot messages
+ - By default, many Linux distributions hide boot messages behind a graphical splash screen. To observe the boot messages, you can disable the splash screen temporarily.
+
+Single-user mode (rescue mode)
+ - in single-user mode, the system starts with only essential services and drops you into a root shell.
+
+Customize kernel parameters
+ - you can customize kernel parameters to fine-tune your system's behavior during boot.
+ - For instance, you can enable verbose kernel logging or set specific hardware options. To make these chagnes permanent, edit the bootloader configuration file (e.g. /etc/default/grub for GRUB)
+
+Inspecting systemd configuration
+ - For systemd-based systems, the main configuration file is usually located at /etc/systemd/system.conf. system service files are stored in /etc/systemd/system/ and /lib/systemd/system/.
+
+Access system logs
+ - once your system has booted, you can review the logs for information about the boot process.
+
+Analyze boot performance
+ - the systemd-analyze tool can help you analyze the boot process in systemd-based systems.
 
 ![BIOS vs UEFI](Images/BIOSvsUEFI.png)
 
-technical advantages of using UEFI:
-- Secure Boot
-- GUID Partition Table (GPT)
-- Platform and architecture Independence
-- Consistend Variables and Services
-- Modular and Extensible
-- Improved Boot Performance
-
-## UEFI: Enhancing Bootloader Functionality and Flexibility
-
 ![ArchitectureUEFI](Images/ArchitectureUEFI.png)
+ 
  
