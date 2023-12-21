@@ -3,6 +3,7 @@ Blazor is a framework to build interactive web UIs using C# and HTML
 (alternative for using javascript and HTML)
 
 Part of ASP.NET core
+
 ![aspnet](img/ASP.NET.png)
 
 ## Blazor - 2 options
