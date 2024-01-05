@@ -7,12 +7,14 @@
 
 ## @model directive
 ![model](img/Model.png)
+
 @model gives access to methods and properties
 
 links to class with same name as Page itself
 
 ## The PageModel Class
 ![PageModelClass](img/PageModelClass.png)
+
 exposes the properties of data we want to use in the UI
 
 ## Page Handler Methods
