@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/H1/H1.iml" filepath="$PROJECT_DIR$/H1/H1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Java_Essentials.iml" filepath="$PROJECT_DIR$/Java_Essentials.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Melotte_Dries_1TINC_JE_Examenlokaal/Melotte_Dries_1TINC_JE_Examenlokaal.iml" filepath="$PROJECT_DIR$/Melotte_Dries_1TINC_JE_Examenlokaal/Melotte_Dries_1TINC_JE_Examenlokaal.iml" />
+    </modules>
+  </component>
+</project>
