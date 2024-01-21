@@ -1,0 +1,21 @@
+﻿<Window x:Class="Oef4._2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Oef4._2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Label Content="Straal" HorizontalAlignment="Left" Margin="87,110,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtStraal" HorizontalAlignment="Left" Margin="142,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Omtrek" HorizontalAlignment="Left" Margin="87,141,0,0" VerticalAlignment="Top"/>
+        <Label Content="Volume" HorizontalAlignment="Left" Margin="87,172,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnCalculate" Content="Calculate" HorizontalAlignment="Left" Margin="267,114,0,0" VerticalAlignment="Top" Width="61" Click="btnCalculate_Click"/>
+        <Label Content="Oppervlakte" HorizontalAlignment="Left" Margin="62,199,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblOmtrek" Content="" HorizontalAlignment="Left" Margin="142,141,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblVolume" Content="" HorizontalAlignment="Left" Margin="142,172,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblOppervlakte" Content="" HorizontalAlignment="Left" Margin="142,199,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

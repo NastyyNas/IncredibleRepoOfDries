@@ -1,0 +1,3 @@
+Dit is een test om te zien of Len gelijk had.
+Methode 1
+We testen append uit

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "7319f8e1-1874-4c2d-9df2-db10bfd707c6": {
+      "ProjectGuid": "7319f8e1-1874-4c2d-9df2-db10bfd707c6",
+      "DisplayName": "Some Shapes",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

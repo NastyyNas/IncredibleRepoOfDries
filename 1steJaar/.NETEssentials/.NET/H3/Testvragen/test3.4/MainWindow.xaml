@@ -1,0 +1,14 @@
+﻿<Window x:Class="test3._4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test3._4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Canvas x:Name="paperCanvas" Margin="300,24,0,10" Width="500" Height="400"/>
+        <Button x:Name="btnDraw" Content="Draw" HorizontalAlignment="Left" Margin="61,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.236,0.317" Height="55" Width="109" Click="btnDraw_Click"/>
+
+    </Grid>
+</Window>

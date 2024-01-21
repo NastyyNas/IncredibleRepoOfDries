@@ -1,0 +1,17 @@
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\bin\Debug\net6.0-windows\Voorbeeldp126.exe
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\bin\Debug\net6.0-windows\Voorbeeldp126.deps.json
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\bin\Debug\net6.0-windows\Voorbeeldp126.runtimeconfig.json
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\bin\Debug\net6.0-windows\Voorbeeldp126.dll
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\bin\Debug\net6.0-windows\ref\Voorbeeldp126.dll
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\bin\Debug\net6.0-windows\Voorbeeldp126.pdb
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.csproj.AssemblyReference.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126_MarkupCompile.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.AssemblyInfoInputs.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.AssemblyInfo.cs
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.csproj.CoreCompileInputs.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.dll
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\ref\Voorbeeldp126.dll
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.pdb
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H5\Voorbeeldp126\obj\Debug\net6.0-windows\Voorbeeldp126.genruntimeconfig.cache

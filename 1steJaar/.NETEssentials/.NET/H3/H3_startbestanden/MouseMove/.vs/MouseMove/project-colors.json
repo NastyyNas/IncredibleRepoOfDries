@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "d6a56965-e538-4436-bf25-78f8abcf52f5": {
+      "ProjectGuid": "d6a56965-e538-4436-bf25-78f8abcf52f5",
+      "DisplayName": "MouseMove",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

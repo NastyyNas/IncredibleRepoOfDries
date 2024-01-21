@@ -1,0 +1,61 @@
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.exe
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.deps.json
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.runtimeconfig.json
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.dll
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\bin\Debug\net6.0-windows\ref\Some Shapes.dll
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.pdb
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes_MarkupCompile.cache
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.g.resources
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.AssemblyInfoInputs.cache
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.AssemblyInfo.cs
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.csproj.CoreCompileInputs.cache
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.dll
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\ref\Some Shapes.dll
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.pdb
+C:\Users\20002375\Documents\Ingrid\C#\20212022\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.genruntimeconfig.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.exe
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.deps.json
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.runtimeconfig.json
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.dll
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.pdb
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.csproj.AssemblyReference.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes_MarkupCompile.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.g.resources
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.AssemblyInfoInputs.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.AssemblyInfo.cs
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.csproj.CoreCompileInputs.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.dll
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\refint\Some Shapes.dll
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.pdb
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.genruntimeconfig.cache
+C:\Users\20002375\Documents\Ingrid\CSharp\20212022\voorstudenten\H3\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\ref\Some Shapes.dll
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.exe
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.deps.json
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.runtimeconfig.json
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.dll
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\Some Shapes.pdb
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.csproj.AssemblyReference.cache
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes_MarkupCompile.cache
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.g.resources
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.AssemblyInfoInputs.cache
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.AssemblyInfo.cs
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.dll
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\refint\Some Shapes.dll
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.pdb
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes.genruntimeconfig.cache
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\ref\Some Shapes.dll
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\bin\Debug\net6.0-windows\bin\logo_pxl_digital.png
+C:\Users\Administrator\Documents\.NET\H3\Testvragen\Some Shapes\Some Shapes\obj\Debug\net6.0-windows\Some Shapes_Content.g.cs

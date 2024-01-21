@@ -1,0 +1,32 @@
+﻿@inject ToDoListApp.AppLogic.IToDoItemRepository ToDoItemRepository
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a asp-page="/Index">TODO</a></li>
+                <li><a asp-page="/Index">Home</a></li>
+                <li><a asp-page="/ToDo/Search">Search</a></li>
+            </ul>
+        </nav>
+        <div class="badge-container">
+            <span class="badge">@ToDoItemRepository.GetTotalOfItemsThatAreNotDone</span>
+        </div>
+        
+
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>
+        <a asp-area="Controllers" asp-controller="HomeController" asp-action="Privacy"></a>
+    </footer>
+</body>
+</html>

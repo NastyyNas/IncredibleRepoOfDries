@@ -1,0 +1,20 @@
+﻿<Window x:Class="ExamplePolymorfisme.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExamplePolymorfisme"
+        mc:Ignorable="d"
+        Title="Example Inheritance" Height="850" Width="800">
+    <Grid>
+        <Button Content="Cirkel" Name="_0circleButton" HorizontalAlignment="Left" Height="45" Margin="35,59,0,0" VerticalAlignment="Top" Width="145"  />
+        <Canvas HorizontalAlignment="Left" Height="315" Margin="260,64,0,0" VerticalAlignment="Top" Width="455"/>
+        <Canvas Name="paperCanvas"  Background="LightBlue" HorizontalAlignment="Left" Height="480" Margin="245,59,0,0" VerticalAlignment="Top" Width="490" />
+        <Button Content="Gekleurde cirkel" Name="_1coloredCircleButton" HorizontalAlignment="Left" Height="45" Margin="35,144,0,0" VerticalAlignment="Top" Width="145"  />
+        <Button Content="Vierkant" Name="_2squareButton" HorizontalAlignment="Left" Height="45" Margin="35,229,0,0" VerticalAlignment="Top" Width="145"   />
+        <Button Content="Driehoek" Name="_3triangleButton" HorizontalAlignment="Left" Height="45" Margin="35,314,0,0" VerticalAlignment="Top" Width="145"    />
+        <TextBlock Name="infoTextBlock" HorizontalAlignment="Left" Height="90" Margin="45,623,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="690" />
+        <Button Content="Figuur" Name="_4pictureButton" HorizontalAlignment="Left" Margin="45,417,0,0" VerticalAlignment="Top"  Height="45" Width="145" />
+
+    </Grid>
+</Window>

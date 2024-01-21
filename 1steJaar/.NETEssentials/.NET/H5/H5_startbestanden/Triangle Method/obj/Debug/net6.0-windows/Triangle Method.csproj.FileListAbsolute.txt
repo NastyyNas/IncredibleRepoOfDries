@@ -1,0 +1,20 @@
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.csproj.AssemblyReference.cache
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method_MarkupCompile.cache
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.g.resources
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.AssemblyInfoInputs.cache
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.AssemblyInfo.cs
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\bin\Debug\net6.0-windows\Triangle Method.exe
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\bin\Debug\net6.0-windows\Triangle Method.deps.json
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\bin\Debug\net6.0-windows\Triangle Method.runtimeconfig.json
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\bin\Debug\net6.0-windows\Triangle Method.dll
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\bin\Debug\net6.0-windows\Triangle Method.pdb
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.dll
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\refint\Triangle Method.dll
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.pdb
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\Triangle Method.genruntimeconfig.cache
+C:\Users\Administrator\Documents\.NET\H5\H5_startbestanden\Triangle Method\obj\Debug\net6.0-windows\ref\Triangle Method.dll
