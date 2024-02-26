@@ -41,7 +41,7 @@ aws ec2 authorize-security-group-ingress --group-name ssh-access-cli --protocol 
 aws ec2 run-instances --image-id **<ami-id>** --instance-type t2.micro --key-name vockey --security-group-ids **<security-group-id>** --tag-specifications 'ResourceType=instance, Tags=[{Key=Name, Value=my-first-cli-ec2}]' --count 1
 ```
 
-zoek de image id van amazon linux plaats deze in de plaats van <ami-id>:
+zoek de image id van amazon linux plaats deze in de plaats van \<ami-id>:
 
 ```bash
 aws ec2 describe-images --owners self amazon
