@@ -56,7 +56,7 @@ aws ec2 describe-security-groups
 ### Create AMI of another instance
 
 ```bash
-aws ec2 create-image --instance-id <value>
+aws ec2 create-image --instance-id <value> --name <name>
 ```
 
 # Storage Lab
