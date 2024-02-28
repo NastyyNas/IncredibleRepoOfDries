@@ -35,6 +35,11 @@ aws ec2 create-security-group --group-name ssh-access-cli --description "sec gro
 aws ec2 authorize-security-group-ingress --group-name ssh-access-cli --protocol tcp --port 22 --cidr 0.0.0.0/0
 ```
 
+### Create private key file
+```bash
+aws ec2 create-key-pair --key-name vockey --query 'KeyMaterial' --output text > vockey.pem
+```
+
 ### Create ec2 instance
 
 ```bash
