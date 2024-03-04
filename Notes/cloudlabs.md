@@ -89,3 +89,15 @@ aws s3 ls s3://bucket-name
 ```bash
 aws s3 cp file-name s3://bucket-name/directory-name/
 ```
+
+### Create a new dir and sync this folder with docker mounted volume
+
+```bash
+aws s3api put-object --bucket my-bucket --key backend-data/
+```
+
+```bash
+aws s3 sync ~/init.sql/ s3://my-bucket/backend-data --acl public-read
+```
+
+
