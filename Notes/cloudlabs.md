@@ -1,4 +1,4 @@
-# Documentatie Labs Cloud
+![image](https://github.com/DriesMelottePXL/IncredibleRepoOfDries/assets/75361303/dc43beac-bfeb-4cff-99ee-6a9e2ddb3fec)# Documentatie Labs Cloud
 
 # Introduction Lab
 
@@ -29,13 +29,17 @@ voeg de credentials toe die te vinden zijn bij lab details op canvas
 aws ec2 create-security-group --group-name ssh-access-cli --description "sec group for ssh access from anywhere”
 ```
 
-### Create rule for security group
+### Create  rule for security group
 
 ```bash
 aws ec2 authorize-security-group-ingress --group-name ssh-access-cli --protocol tcp --port 22 --cidr 0.0.0.0/0
 ```
+inbound = ingress
 
-### Create private key file
+outbound = egress
+
+
+### Create private key file (herbekijken)
 ```bash
 aws ec2 create-key-pair --key-name vockey --query 'KeyMaterial' --output text > vockey.pem
 ```
@@ -100,4 +104,46 @@ aws s3api put-object --bucket my-bucket --key backend-data/
 aws s3 sync ~/init.sql/ s3://my-bucket/backend-data --acl public-read
 ```
 
+# Networking 1 Lab
 
+### Create VPC
+
+```bash
+aws ec2 create-vpc --cidr-block 10.0.0.0/16 --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=awsgen-cli-vpc}]'
+```
+
+### Create subnet
+
+```bash
+aws ec2 create-subnet --vpc-id <VPC_ID> --cidr-block 10.0.1.0/24 --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Subnet-1}]'
+```
+
+### Create internet gateway
+
+```bash
+aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=MyIGW}]'
+```
+
+### Attach internet gateway
+
+```bash
+aws ec2 attach-internet-gateway --vpc-id <VPC_ID> --internet-gateway-id <IGW_ID>
+```
+
+### Create route table for public subnet
+
+```bash
+aws ec2 create-route-table --vpc-id <VPC_ID> --tag-specifications 'ResourceType=route-table,Tags=[{Key=Name,Value=Public-Route-Table}]' --query 'RouteTable.RouteTableId' --output text
+```
+
+### Create route to internet gateway in public route table
+
+```bash
+aws ec2 create-route --route-table-id $PUBLIC_ROUTE_TABLE_ID --destination-cidr-block 0.0.0.0/0 --gateway-id <IGW_ID>
+```
+
+### Associate public subnet with public route table
+
+```bash
+aws ec2 associate-route-table --subnet-id <PUBLIC_SUBNET_ID> --route-table-id $PUBLIC_ROUTE_TABLE_ID
+```
