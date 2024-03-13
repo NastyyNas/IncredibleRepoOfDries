@@ -1,4 +1,4 @@
-![image](https://github.com/DriesMelottePXL/IncredibleRepoOfDries/assets/75361303/dc43beac-bfeb-4cff-99ee-6a9e2ddb3fec)# Documentatie Labs Cloud
+# Documentatie Labs Cloud
 
 # Introduction Lab
 
