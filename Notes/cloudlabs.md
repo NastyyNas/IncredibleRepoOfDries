@@ -147,3 +147,41 @@ aws ec2 create-route --route-table-id $PUBLIC_ROUTE_TABLE_ID --destination-cidr-
 ```bash
 aws ec2 associate-route-table --subnet-id <PUBLIC_SUBNET_ID> --route-table-id $PUBLIC_ROUTE_TABLE_ID
 ```
+
+# Networking 2
+
+### Create a launch template
+
+```bash
+aws ec2 create-launch-template --launch-template-name aws-lt-cli --launch-template-data ImageId=<AMI>,InstanceType=t2.micro,KeyName=<Key>,SecurityGroupIds=<SGID> --output text
+```
+
+### Create instance using launch template
+
+```bash
+aws ec2 run-instances --launch-template LaunchTemplateId=<LaunchTemplateId> --tag-specifications 'ResourceType=instance, Tags=[{Key=Name, Value=<instanceName>}]' --count 1
+```
+
+### Create a new target group
+
+```bash
+aws elbv2 create-target-group --name <name> --protocol HTTP --port 80 --vpc-id <VPCID> --output text
+```
+
+### Link instances to target group
+
+```bash
+aws elbv register-targets --target-group-arn <arn> --targets Id=<Instance-Id> Id=<Instance-Id>
+```
+
+### Create a new loadbalancer
+
+```bash
+aws elbv2 create-load-balancer --name <name> --scheme internetfacing --type application --ip-address-type ipv4 --subnets <default-public-subnet-id-1> <default-public-subnet-id-1>_1 --security-groups <sg-id> --output text
+```
+
+### link loadbalancer to target group using listener
+
+```bash
+aws elbv2 create-listener --load-balancer-arn <load-balancer-arn> --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=<target-group-arn>
+```
