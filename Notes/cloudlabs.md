@@ -104,6 +104,32 @@ aws s3api put-object --bucket my-bucket --key backend-data/
 aws s3 sync ~/init.sql/ s3://my-bucket/backend-data --acl public-read
 ```
 
+### Enable the static site hosting option for your bucket
+
+```bash
+aws s3 website s3://<bucket-name> --index-document index.html
+```
+
+### disable the Block public access setting
+
+```bash
+aws s3api put-public-access-block --bucket s3://<bucket-name> --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
+```
+
+### add a new policy to your bucket
+
+```bash
+aws s3api put-bucket-policy --bucket <bucket-name> --policy file://policy.json
+```
+
+### sync html file with placeholder to bucket
+
+- create html file with placeholder
+
+```bash
+aws s3 sync . s3://website-bucket-dries/
+```
+
 # Networking 1 Lab
 
 ### Create VPC
