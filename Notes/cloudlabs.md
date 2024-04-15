@@ -211,3 +211,11 @@ aws elbv2 create-load-balancer --name <name> --scheme internetfacing --type appl
 ```bash
 aws elbv2 create-listener --load-balancer-arn <load-balancer-arn> --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=<target-group-arn>
 ```
+
+# Database lab
+
+### create RDS
+
+```bash
+aws rds create-db-instance --engine mysql --db-instance-class db.t2.micro --db-instance-identifier cli-db --master-username admin --master-user-password admin --vpc-security-group-ids <sgid> --allocated-storage 20 --no-publicly-accessible
+```
