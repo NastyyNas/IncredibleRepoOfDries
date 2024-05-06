@@ -1,0 +1,25 @@
+---
+- name: create new user using vault for password
+  hosts: ec2
+  become: yes
+  vars_files:
+    - ssh_key_vault.yml
+
+  tasks:
+    - name: add User
+      user:
+        name: janedoe
+        state: present
+
+    - name: authorize
+      ansible.builtin.authorized_key:
+        user: janedoe
+        state: present
+        key: "{{ lookup('file', 'janedoe_key.pub') }}"
+    
+    - name: copy key
+      copy:
+        content: "{{ ssh_private_key }}"
+        dest: /home/janedoe/.ssh/janedoe_key.pem
+        owner: janedoe
+        mode: '0600'

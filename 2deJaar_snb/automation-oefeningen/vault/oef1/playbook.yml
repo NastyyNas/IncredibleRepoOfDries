@@ -1,0 +1,13 @@
+---
+- name: create new user using vault for password
+  hosts: ec2
+  become: yes
+  vars_files:
+    - my_vars.yaml
+
+  tasks:
+    - name: add User
+      user:
+        name: johndoe
+        password: "{{ password }}"
+        state: present
