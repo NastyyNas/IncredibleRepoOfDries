@@ -115,3 +115,117 @@ description yourdescription
 ```bash
 ip default-gateway 10.10.10.1
 ```
+
+# VLANs
+
+## Configure VLAN on switch
+
+### create and name VLAN
+
+```bash
+vlan 10
+name vlan-name
+```
+
+### assign port to vlan
+
+```bash
+int f0/11
+switchport mode access
+switchport access vlan 10
+```
+
+### assign VOICE VLAN to port
+
+```bash
+int f0/11
+switchport voice vlan 150
+```
+
+### voice traffic to IP phone
+
+```bash
+int f0/11
+mls qos trust cos # enable QoS and trust the Class of Service
+switchport voice vlan 150
+```
+
+### VLAN overview
+
+```bash
+show vlan brief
+```
+
+## configure static trunking on switch
+
+### Configure G0/1 and G0/2 interfaces for trunking and configure native vlan
+
+```bash
+int range g0/1-2
+switchport mode trunk
+switchport trunk native vlan 99
+```
+
+### trunking overview
+
+```bash
+show interface trunk
+```
+
+## Configure Dynamic trunking (DTP) on switch
+
+### configure trunk link to dynamic desirable
+
+```bash
+int g0/1
+switchport mode dynamic desirable
+```
+
+### disable DTP
+
+```bash
+int g0/2
+switchport mode trunk
+switchport nonegotiate
+```
+
+## Router on a stick
+
+### Create a subinterface
+
+```bash
+int g0/0.10
+```
+
+### set the encapsulation type to 802.1Q and assign VLAN 10 to the subinterface
+
+```bash
+encapsulation dot1Q 10
+```
+
+### set the native vlan for a subinterface with encapsulation
+
+```bash
+encapsulation dot1Q 1 native
+```
+
+## inter vlan routing
+
+### configure interface as a routing port
+
+```bash
+int g0/2
+no switchport
+```
+
+### enable ip routing
+
+```bash
+ip routing
+```
+
+### enable ipv6 unicast-routing
+
+```bash
+ipv6 unicast-routing
+```
