@@ -32,6 +32,12 @@ crypto key generate rsa general-keys modulus 1024
 username admin privilege 15 secret cisco
 ```
 
+### configure privileged exec mode password
+
+```bash
+enable secret cisco
+```
+
 ### Configure the VTY lines to check the local username database for login credentials and to only allow SSH for remote access. Remove the existing vty line password.
 
 ```bash
@@ -229,3 +235,247 @@ ip routing
 ```bash
 ipv6 unicast-routing
 ```
+
+# STP (Spanning Tree Protocol)
+
+## Config STP
+
+### give vlan a priority
+
+```bash
+conf t
+spanning-tree VLAN xx priority 4096 (lowest prio)
+```
+
+### give vlan automatic priority
+
+```bash
+conf t
+spanning-tree VLAN xx root primary
+```
+
+or
+
+```bash
+conf t
+spanning-tree VLAN xx root secondary
+```
+
+## show/verify
+
+```bash
+show spanning-tree
+show spanning-tree active
+show spanning-tree vlan xx
+```
+
+# Etherchannel
+
+## Configure Etherchannel
+
+### protocol PAgP
+
+do this for the same port on both switches
+
+```bash
+int range f0/21-22
+shutdown
+channel-group 1 mode desirable
+no shutown
+
+int port-channel 1
+switchport mode trunk
+```
+
+### protocol LACP
+
+do this for the same port on both switches
+
+```bash
+int range g0/1-2
+shutdown
+channel-group 2 mode active
+no shutdown
+
+int port-channel 2
+switchport mode trunk
+```
+
+### protocol negotiated LACP
+
+switch 1 is passive
+
+```bash
+int range g0/1-2
+shutdown
+channel-group 2 mode passive
+no shutdown
+
+int port-channel 2
+switchport mode trunk
+```
+
+switch 2 is active
+
+```bash
+int range g0/1-2
+shutdown
+channel-group 2 mode active
+no shutdown
+
+int port-channel 2
+switchport mode trunk
+```
+
+in this case switch2 negotiates with switch1 but switch1 does not negotiate with switch2
+
+### show commando
+
+```bash
+show etherchannel summary
+```
+
+# DHCP
+
+## Configure DHCP
+
+### configure R2 to exclude first 10 addresses from the R1 LAN
+
+in the config of R2
+```bash
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+```
+
+### create a DHCP pool
+
+```bash
+ip dhcp pool R1-LAN
+```
+
+### configure the DHCP pool to include the network addressm the default gateway and the IP address of the DNS server
+
+```bash
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+dns-server 192.168.20.254
+```
+
+### configure the helper address for the LAN interface
+
+```bash
+interface g0/0
+ip helper-address 10.1.1.2 (ip of the connection to the main router)
+```
+
+### configure interface to receive ip addressing from DHCP
+
+```bash
+interface g0/1
+ip address dhcp
+no shutdown
+```
+
+### verify DHCP bindings
+
+```bash
+show ip dhcp binding 
+```
+
+# Security
+
+## Implement Port Security
+
+### enable port security
+
+```bash
+switchport port-security
+```
+
+### set the maximum so that only one device can access the ports
+
+```bash
+switchport port-security maximum 1
+```
+
+### secure the ports so that the MAC address of a device is dynamically learned and added to the running config
+
+```bash
+switchport port-security mac-address sticky
+```
+
+### set the violation mode so that the ports are not disabled when a violation occurs
+
+```bash
+switchport port-security violation restrict
+```
+
+## switch security configuration
+
+### statically configure MAC address using port security
+
+```bash
+switchport port-security mac-address 0010.11E8.3CBB
+```
+
+### configure trunk ports as trusted ports
+
+```bash
+ip dhcp snooping trust
+```
+
+### limit untrusted ports to 5 packets per second
+
+```bash
+ip dhcp snooping limit rate 5
+```
+
+### enable dhcp snooping globally and for vlans
+
+in the config
+```bash
+ip dhcp snooping
+ip dhcp snooping vlan 10,20
+```
+
+### enable portfast and bpdu guard on interface
+
+```bash
+spanning-tree portfast
+spanning-tree bpduguard enable
+```
+
+### enable portfast by default
+
+in the config
+```bash
+spanning-tree portfast default
+```
+
+### show port security command
+
+```bash
+show port-security
+show port-security address
+show port-security interface f0/2
+```
+
+# routing
+
+## basic router configuration review
+
+### disable dns lookup
+
+```bash
+no ip domain-lookup
+```
+
+### configure console password, set the session timeout after 6 minutes, enable login and use logging synchronous
+
+```bash
+line console 0
+password cisco
+login
+exec-timeout 6 (minutes) 0 (seconds)
+logging synchronous
+```
+
