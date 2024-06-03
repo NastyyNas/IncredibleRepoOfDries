@@ -479,3 +479,58 @@ exec-timeout 6 (minutes) 0 (seconds)
 logging synchronous
 ```
 
+## Configure ipv4 and ipv6 static and default routes
+
+### Configure static default route through a router connected at s0/0/0
+
+ipv4
+```bash
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+```
+
+ipv6
+```bash
+ipv6 route ::/0 2001:db8:a:1::1
+```
+
+### Configure an ipv4 floating static default route through a router connected at s0/0/1 with an administrative distance of 5
+
+ipv4
+```bash
+ip route 0.0.0.0 0.0.0.0 s0/0/1 5
+```
+
+ipv6
+```bash
+ipv6 route ::/0 2001:db8:a:2::1 5
+```
+
+### Configure static routes to an internal LAN
+
+ipv4
+```bash
+ip route *ip switch of lan* *subnet switch of lan* *ip port connected to router between target and destination*
+ip route 192.168.10.16 255.255.255.250 10.10.10.2
+```
+
+ipv6
+```bash
+ip route *ipv6 switch of lan + prefix* *ipv6 port connected to router between target and destination - prefix*
+ipv6 route 2001:db8:1:10::/64 2001:db8:a:1::2
+```
+
+### Configure floating static routes to an internal LAN
+
+On router ISP1 route to LAN1 through the ISP2 router
+
+ipv4
+```bash
+ip route *ip switch of lan* *subnet switch of lan* *port that connects ISP2 and ISP_LAN* *administrative distance*
+ip route 192.168.10.16 255.255.255.250 g0/0 5
+```
+
+ipv6
+```bash
+ip route *ipv6 switch of lan + prefix* *ipv6 port that connects ISP2 and ISP_LAN - prefix* *administrative distance*
+ip route 192.168.10.16 255.255.255.250 g0/0 5
+```
