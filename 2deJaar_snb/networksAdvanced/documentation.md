@@ -342,6 +342,7 @@ show etherchannel summary
 ### configure R2 to exclude first 10 addresses from the R1 LAN
 
 in the config of R2
+
 ```bash
 ip dhcp excluded-address 192.168.10.1 192.168.10.10
 ```
@@ -378,7 +379,7 @@ no shutdown
 ### verify DHCP bindings
 
 ```bash
-show ip dhcp binding 
+show ip dhcp binding
 ```
 
 # Security
@@ -432,6 +433,7 @@ ip dhcp snooping limit rate 5
 ### enable dhcp snooping globally and for vlans
 
 in the config
+
 ```bash
 ip dhcp snooping
 ip dhcp snooping vlan 10,20
@@ -447,6 +449,7 @@ spanning-tree bpduguard enable
 ### enable portfast by default
 
 in the config
+
 ```bash
 spanning-tree portfast default
 ```
@@ -484,11 +487,13 @@ logging synchronous
 ### Configure static default route through a router connected at s0/0/0
 
 ipv4
+
 ```bash
 ip route 0.0.0.0 0.0.0.0 s0/0/0
 ```
 
 ipv6
+
 ```bash
 ipv6 route ::/0 2001:db8:a:1::1
 ```
@@ -496,11 +501,13 @@ ipv6 route ::/0 2001:db8:a:1::1
 ### Configure an ipv4 floating static default route through a router connected at s0/0/1 with an administrative distance of 5
 
 ipv4
+
 ```bash
 ip route 0.0.0.0 0.0.0.0 s0/0/1 5
 ```
 
 ipv6
+
 ```bash
 ipv6 route ::/0 2001:db8:a:2::1 5
 ```
@@ -508,12 +515,14 @@ ipv6 route ::/0 2001:db8:a:2::1 5
 ### Configure static routes to an internal LAN
 
 ipv4
+
 ```bash
 ip route *ip switch of lan* *subnet switch of lan* *ip port connected to router between target and destination*
 ip route 192.168.10.16 255.255.255.250 10.10.10.2
 ```
 
 ipv6
+
 ```bash
 ip route *ipv6 switch of lan + prefix* *ipv6 port connected to router between target and destination - prefix*
 ipv6 route 2001:db8:1:10::/64 2001:db8:a:1::2
@@ -524,13 +533,31 @@ ipv6 route 2001:db8:1:10::/64 2001:db8:a:1::2
 On router ISP1 route to LAN1 through the ISP2 router
 
 ipv4
+
 ```bash
 ip route *ip switch of lan* *subnet switch of lan* *port that connects ISP2 and ISP_LAN* *administrative distance*
 ip route 192.168.10.16 255.255.255.250 g0/0 5
 ```
 
 ipv6
+
 ```bash
 ip route *ipv6 switch of lan + prefix* *ipv6 port that connects ISP2 and ISP_LAN - prefix* *administrative distance*
 ip route 192.168.10.16 255.255.255.250 g0/0 5
+```
+
+# OSPF
+
+## Configure OSPF
+
+### place router in router config mode and enable ospf routing process
+
+```bash
+router ospf 1
+```
+
+### set the network address
+
+```bash
+network *ip* *subnet wildcard* area 0
 ```
