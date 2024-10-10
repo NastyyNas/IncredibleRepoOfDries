@@ -175,3 +175,5 @@ $Events[0].Properties[13].Value
 **Question:** What C2 is the adversary utilizing in Investigation 4?
 
 **Answer:** Empire
+
+_The tasks, questions or answers not mentioned here means there were no answers needed._

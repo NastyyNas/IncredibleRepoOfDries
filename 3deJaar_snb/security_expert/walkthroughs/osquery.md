@@ -106,8 +106,6 @@ check the windows os
 
 ![alt text](image-32.png)
 
-
-
 **Question:** A table autoexec contains the list of executables that are automatically executed on the target machine. There seems to be a batch file that runs automatically. What is the name of that batch file (with the extension .bat)?
 
 **Answer:** batstartup.bat
@@ -119,3 +117,5 @@ check the windows os
 **Question:** What is the full path of the batch file found in the above question? (Last in the List)
 
 **Answer:** C:\Users\James\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat
+
+_The tasks, questions or answers not mentioned here means there were no answers needed._
