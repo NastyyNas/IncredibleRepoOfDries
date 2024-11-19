@@ -1,0 +1,48 @@
+datadog:
+  apiKey: "1e937b85c7a1aa0c03ac676f866e9681"
+
+  site: "us5.datadoghq.com"
+
+  logs:
+    enabled: true
+
+  apm:
+    enabled: true
+
+  apm_config:
+    enabled: true
+
+  kubeStateMetricsEnabled: true
+
+  processAgent:
+    enabled: true
+    processCollection: true
+
+  networkMonitoring:
+    enabled: true
+
+  systemProbe:
+    enableTCPQueueLength: true
+    enableOOMKill: true
+
+  collectEvents: true
+
+  clusterAgent:
+    replicas: 2
+    createPodDisruptionBudget: true
+
+kubelet:
+  tlsVerify: true
+  host: "https://kubernetes.default.svc:10250"
+
+daemonset:
+  useHostNetwork: true
+  useHostPort: true
+  updateStrategy:
+    type: RollingUpdate
+
+externalMetrics:
+  enabled: true
+
+logs_config:
+  container_collect_all: true
