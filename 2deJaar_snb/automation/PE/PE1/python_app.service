@@ -1,0 +1,11 @@
+[Unit]
+Description=Example service
+
+[Service]
+User=ec2-user
+WorkingDirectory=/home/ec2-user
+ExecStart=/opt/pyramid_app/app.py -d
+Restart=always
+
+[Install]
+WantedBy=multi-user.target`

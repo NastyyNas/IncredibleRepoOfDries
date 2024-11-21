@@ -1,0 +1,11 @@
+---
+# handlers file for pe_role
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+
+- name: restart firewalld
+  service:
+    name: nginx
+    state: restarted

@@ -1,0 +1,58 @@
+- name: launch python application
+  hosts: ec2
+  become: yes
+  tasks:
+    - name: install pip
+      package:
+        name: python3-pip
+        state: present
+
+    - name: install modules using pip
+      pip:
+        name: 
+          - pyramid
+          - waitress
+          - psutil
+          - distro
+        state: present
+        executable: pip3
+
+    - name: add user
+      ansible.builtin.user:
+        name: app_user
+
+    - name: create directory for the python file
+      ansible.builtin.file:
+        path: /opt/pyramid_app
+        state: directory
+        owner: app_user
+
+    - name: copy app.py file
+      ansible.builtin.copy:
+        src: ./app.py
+        dest: /opt/pyramid_app/app.py
+
+    - name: install firewalld
+      package:
+        name: firewalld
+        state: present
+
+    - name: ensure firewalld is started
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+      
+    - name: ensure port for app is open
+      ansible.posix.firewalld:
+        port: 5000/udp
+        permanent: true
+        state: enabled
+
+    - name: copy service file
+      ansible.builtin.copy:
+        src: python_app.service
+        dest: /etc/systemd/system/python_app.service
+
+    - name: run python file
+      shell: nohup /usr/bin/python3 /opt/pyramid_app/app.py $

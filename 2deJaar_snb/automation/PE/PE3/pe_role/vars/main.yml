@@ -1,0 +1,6 @@
+---
+# vars file for pe_role
+doc_root: /var/www/mypage
+web_port: 8080
+page_title: PE3
+page_description: PE3 is ez

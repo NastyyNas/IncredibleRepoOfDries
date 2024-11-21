@@ -1,0 +1,80 @@
+- name: create bastion host to login with my_user
+  hosts: bastion
+  become: yes
+  vars_files:
+    - secrets.yaml
+  tasks:
+    - name: install ssh
+      package:
+        name: openssh-server
+        state: latest
+
+    - name: install firewalld
+      package:
+        name: firewalld
+        state: latest
+    
+    - name: add User
+      user:
+        name: my_user
+        password: "{{ password }}"
+        state: present
+    
+    - name: authorize
+      ansible.builtin.authorized_key:
+        user: my_user
+        state: present
+        key: "{{ lookup('file', 'my_user.pub') }}"
+
+    - name: copy key
+      copy:
+        content: "{{ ssh_private_key }}"
+        dest: /home/my_user/.ssh/my_user.pem
+        owner: my_user
+        mode: '0600'
+    
+    - name: open port 22 for ssh
+      ansible.posix.firewalld:
+        port: 22/tcp
+        permanent: true
+        state: enabled
+    
+    - name: copy txt file
+      ansible.builtin.copy:
+        content: "bastion host configured"
+        dest: /home/my_user/info.txt
+        owner: my_user
+
+- name: create webserver
+  hosts: webserver
+  become: yes
+  vars_files:
+    - secrets.yaml
+  tasks:
+    - name: install apache
+      package:
+        name: httpd
+        state: latest
+    
+    - name: start httpd
+      ansible.builtin.service:
+        name: httpd
+        state: started
+
+    - name: copy html file
+      copy:
+        src: ./files/index.html
+        dest: "{{ apache_index_src }}" 
+
+    - name: add User
+      user:
+        name: my_user
+        password: "{{ password }}"
+        state: present
+    
+    - name: authorize
+      ansible.builtin.authorized_key:
+        user: my_user
+        state: present
+        key: "{{ lookup('file', 'my_user.pub') }}"
+    
