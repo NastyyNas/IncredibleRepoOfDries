@@ -1,0 +1,572 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "CloudPE"
+
+Conditions:
+  IsTestStack:
+    Fn::Equals: 
+      - !Ref AWS::StackName
+      - "test"
+
+Resources:
+
+  MyParameterDbInstanceName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Join ['_', [!Ref AWS::StackName, db_instance_name]]
+      Type: "String" # Valid types: String, StringList, SecureString
+      Value: !Join ['', [ !Ref AWS::StackName, db ]]
+      Description: ""
+      Tier: "Standard" # Optional, values: Standard, Advanced, Intelligent-Tiering
+  MyParameterDbPassword:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Join ['_', [!Ref AWS::StackName, db_password]]
+      Type: "String" # Valid types: String, StringList, SecureString
+      Value: "password123"
+      Description: ""
+      Tier: "Standard" # Optional, values: Standard, Advanced, Intelligent-Tiering
+  MyParameterRDSEndpoint:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Join ['_', [!Ref AWS::StackName, endpoint]]
+      Type: "String" # Valid types: String, StringList, SecureString
+      Value: !GetAtt MySQLRDSInstance.Endpoint.Address
+      Description: ""
+      Tier: "Standard" # Optional, values: Standard, Advanced, Intelligent-Tiering
+  MyParameterUsername:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Join ['_', [!Ref AWS::StackName, master_username]]
+      Type: "String" # Valid types: String, StringList, SecureString
+      Value: "admin"
+      Description: ""
+      Tier: "Standard" # Optional, values: Standard, Advanced, Intelligent-Tiering
+
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, vpc]]
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, igw]]
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: "10.0.1.0/24"
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [ 0, !GetAZs "" ]
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, PublicSubnet1]]
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: "10.0.2.0/24"
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [ 1, !GetAZs "" ]
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, PublicSubnet2]]
+
+  PrivateSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: '10.0.3.0/24'
+      AvailabilityZone: !Select [ 0, !GetAZs "" ]
+      Tags:
+        - Key: Name
+          Value: 'PrivateSubnet1'
+
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: '10.0.4.0/24'
+      AvailabilityZone: !Select [ 1, !GetAZs "" ]
+      Tags:
+        - Key: Name
+          Value: 'PrivateSubnet2'
+
+  NatGatewayEIP:
+    Type: 'AWS::EC2::EIP'
+    Properties:
+      Domain: vpc
+
+
+  NatGateway:
+    Type: 'AWS::EC2::NatGateway'
+    Properties:
+      AllocationId: !GetAtt NatGatewayEIP.AllocationId
+      SubnetId: !Ref PublicSubnet1
+      Tags:
+        - Key: Name
+          Value: 'NatGateway'
+
+  PrivateRouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: 'PrivateRouteTable'
+
+  PrivateRoute:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: '0.0.0.0/0'
+      NatGatewayId: !Ref NatGateway
+
+  PrivateSubnet1RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable
+
+  PrivateSubnet2RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, PublicRouteTable]]
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnetRouteTableAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  MySQLSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security group for MySQL RDS"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: "0.0.0.0/0"
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, DBSecurityGroup]]
+
+  MySQLRDSInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      DBName: !GetAtt MyParameterDbInstanceName.Value
+      Engine: mysql
+      MasterUsername: !GetAtt MyParameterUsername.Value
+      MasterUserPassword: !GetAtt MyParameterDbPassword.Value
+      VPCSecurityGroups:
+        - !GetAtt MySQLSecurityGroup.GroupId
+      DBSubnetGroupName: !Ref DBSubnetGroup
+
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: "Subnet group for RDS"
+      SubnetIds:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, DbSubnetGroup]]
+
+  FrontendALBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for ALB'
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: '0.0.0.0/0'
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, FrontendALBSecurityGroup]]
+
+  BackendALBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for ALB'
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 4000
+          ToPort: 4000
+          CidrIp: '0.0.0.0/0'
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, BackendALBSecurityGroup]]
+
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Join ['-', [!Ref AWS::StackName, MyECSCluster]]
+    DependsOn: MySQLRDSInstance
+  
+  FrontendLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Join ['-', [!Ref AWS::StackName, FrontendLoadbalancer]]
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      SecurityGroups:
+        - !Ref FrontendALBSecurityGroup
+      Scheme: internet-facing
+      LoadBalancerAttributes:
+        - Key: idle_timeout.timeout_seconds
+          Value: "60"
+  
+  BackendLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Join ['-', [!Ref AWS::StackName, BackendLoadbalancer]]
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      SecurityGroups:
+        - !Ref BackendALBSecurityGroup
+      Scheme: internet-facing
+      LoadBalancerAttributes:
+        - Key: idle_timeout.timeout_seconds
+          Value: "60"
+
+  ALBTargetGroupBackend:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Join ['-', [!Ref AWS::StackName, BackendTargetGroup]]
+      Port: 4000
+      Protocol: HTTP
+      VpcId: !Ref VPC
+      TargetType: ip
+
+  ALBTargetGroupFrontend:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Join ['-', [!Ref AWS::StackName, FrontendTargetGroup]]
+      Port: 80
+      Protocol: HTTP
+      VpcId: !Ref VPC
+      TargetType: ip
+
+  FrontendALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroupFrontend
+      LoadBalancerArn: !Ref FrontendLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, FrontendALBListener]]
+
+  BackendALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroupBackend
+      LoadBalancerArn: !Ref BackendLoadBalancer
+      Port: 4000
+      Protocol: HTTP
+      Tags:
+        - Key: Name
+          Value: !Join ['-', [!Ref AWS::StackName, BackendALBListener]]
+
+  FrontendTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Join ['-', [!Ref AWS::StackName, FrontendTask]]
+      Cpu: 256
+      Memory: 512
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: arn:aws:iam::278253487803:role/LabRole
+      TaskRoleArn: arn:aws:iam::278253487803:role/LabRole
+      ContainerDefinitions:
+        - Name: !Join ['-', [!Ref AWS::StackName, frontend-container]]
+          Image: !Sub "278253487803.dkr.ecr.us-east-1.amazonaws.com/pe/frontend:latest"
+          PortMappings:
+            - ContainerPort: 80
+              Protocol: tcp
+          Environment:
+            - Name: API_URL
+              Value: !GetAtt BackendLoadBalancer.DNSName
+            - Name: RUM_ENV
+              Value: !Ref AWS::StackName
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Join ['-', [/ecs/frontend-container, !Ref AWS::StackName]]
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: ecs
+
+        - Name: datadog-agent
+          Image: "public.ecr.aws/datadog/agent:latest"
+          Essential: true
+          Environment:
+            - Name: DD_API_KEY
+              Value: df04c8459b49c39fe59d62b54580a293
+            - Name: ECS_FARGATE
+              Value: "true"
+            - Name: DD_SITE
+              Value: "us5.datadoghq.com"
+            - Name: DD_ENV
+              Value: !Ref AWS::StackName
+            - Name: DD_SERVICE
+              Value: "frontend-service"
+            - Name: DD_VERSION
+              Value: "1.0.0"
+            - Name: DD_LOGS_ENABLED
+              Value: "true"
+            - Name: DD_RUM_ENABLED
+              Value: "true"
+            # Add any additional environment variables as needed
+          PortMappings:
+            # If you need APM (tracing), expose port 8126
+            - ContainerPort: 8126
+              Protocol: tcp
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Join ['-', [/ecs/frontend-container, !Ref AWS::StackName]]
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: "datadog-agent"
+
+  FrontendLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ['-', [/ecs/frontend-container, !Ref AWS::StackName]]
+      RetentionInDays: 30
+
+  BackendTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Join ['-', [!Ref AWS::StackName, BackendTask]]
+      Cpu: 256
+      Memory: 512
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: arn:aws:iam::278253487803:role/LabRole
+      TaskRoleArn: arn:aws:iam::278253487803:role/LabRole
+      ContainerDefinitions:
+        - Name: !Join ['-', [!Ref AWS::StackName, backend-container]]
+          Image: !Sub "278253487803.dkr.ecr.us-east-1.amazonaws.com/pe/backend:latest"
+          PortMappings:
+            - ContainerPort: 4000
+              Protocol: tcp
+          Environment:
+            - Name: APP_ENV
+              Value: !Ref AWS::StackName
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Join ['-', [/ecs/backend-container, !Ref AWS::StackName]]
+              awslogs-region: us-east-1
+              awslogs-stream-prefix: ecs
+              
+        - Name: datadog-agent
+          Image: "public.ecr.aws/datadog/agent:latest"
+          Essential: true
+          Environment:
+            - Name: DD_API_KEY
+              Value: df04c8459b49c39fe59d62b54580a293
+            - Name: ECS_FARGATE
+              Value: "true"
+            - Name: DD_SITE
+              Value: "us5.datadoghq.com"
+            - Name: DD_ENV
+              Value: !Ref AWS::StackName
+            - Name: DD_SERVICE
+              Value: "backend-service"
+            - Name: DD_VERSION
+              Value: "1.0.0"
+            - Name: DD_LOGS_ENABLED
+              Value: "true"
+            - Name: DD_APM_ENABLED
+              Value: "true"
+            - Name: DD_MYSQL_ENABLED
+              Value: "true"
+            - Name: DD_MYSQL_SERVER
+              Value: !GetAtt MyParameterRDSEndpoint.Value
+            - Name: DD_MYSQL_PORT
+              Value: "3306"
+            - Name: DD_MYSQL_USER
+              Value: !GetAtt MyParameterUsername.Value
+            - Name: DD_MYSQL_PASSWORD
+              Value: !GetAtt MyParameterDbPassword.Value
+            # Add any additional environment variables as needed
+          PortMappings:
+            # If you need APM (tracing), expose port 8126
+            - ContainerPort: 8126
+              Protocol: tcp
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Join ['-', [/ecs/backend-container, !Ref AWS::StackName]]
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: "datadog-agent"
+  
+
+  BackendLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ['-', [/ecs/backend-container, !Ref AWS::StackName]]
+      RetentionInDays: 30
+
+  FrontendService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSCluster
+      ServiceName: !Join ['-', [!Ref AWS::StackName, FrontendService]]
+      DesiredCount: !If
+        - IsTestStack
+        - 1
+        - 2
+      LaunchType: FARGATE
+      TaskDefinition: !Ref FrontendTaskDefinition
+      LoadBalancers:
+        - ContainerName: !Join ['-', [!Ref AWS::StackName, frontend-container]]
+          ContainerPort: 80
+          TargetGroupArn: !Ref ALBTargetGroupFrontend
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - !Ref PrivateSubnet1
+            - !Ref PrivateSubnet2
+          SecurityGroups:
+            - !Ref FrontendALBSecurityGroup
+          AssignPublicIp: ENABLED
+
+  BackendService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: !Ref ECSCluster
+      ServiceName: !Join ['-', [!Ref AWS::StackName, BackendService]]
+      DesiredCount: !If
+        - IsTestStack
+        - 1
+        - 2
+      LaunchType: FARGATE
+      TaskDefinition: !Ref BackendTaskDefinition
+      LoadBalancers:
+        - ContainerName: !Join ['-', [!Ref AWS::StackName, backend-container]]
+          ContainerPort: 4000
+          TargetGroupArn: !Ref ALBTargetGroupBackend
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - !Ref PrivateSubnet1
+            - !Ref PrivateSubnet2
+          SecurityGroups:
+            - !Ref BackendALBSecurityGroup
+          AssignPublicIp: ENABLED
+
+  BackendServiceScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: !If
+        - IsTestStack
+        - 1
+        - 4  # Maximum number of tasks
+      MinCapacity: !If
+        - IsTestStack
+        - 1
+        - 2   # Minimum number of tasks
+      ResourceId: !Join ['/', [service, !Ref ECSCluster, !GetAtt BackendService.Name]]
+      RoleARN: arn:aws:iam::278253487803:role/LabRole
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+    DependsOn: BackendService
+
+  BackendScalingPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub "${AWS::StackName}-BackendScalingPolicy"
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref BackendServiceScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        TargetValue: 50
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+
+  frontendServiceScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: !If
+        - IsTestStack
+        - 1
+        - 4  # Maximum number of tasks
+      MinCapacity: !If
+        - IsTestStack
+        - 1
+        - 2   # Minimum number of tasks
+      ResourceId: !Join ['/', [service, !Ref ECSCluster, !GetAtt FrontendService.Name]]
+      RoleARN: arn:aws:iam::278253487803:role/LabRole
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+    DependsOn: FrontendService
+
+  FrontendScalingPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub "${AWS::StackName}-FrontendScalingPolicy"
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref frontendServiceScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        TargetValue: 50
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization

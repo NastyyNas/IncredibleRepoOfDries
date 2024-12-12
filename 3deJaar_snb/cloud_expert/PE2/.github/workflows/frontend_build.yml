@@ -1,0 +1,43 @@
+name: frontend Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'WebLayer/**' # Workflow triggers only when changes are made in the frontend directory
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Log in to Amazon ECR
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      env:
+        AWS_REGION: ${{ secrets.AWS_REGION }} # Ensure this is set as a secret
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN}}
+
+    # Build Docker image from the frontend directory
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ secrets.AWS_FRONTEND_ECR }} ./WebLayer
+
+    # Tag the Docker image
+    - name: Tag Docker image
+      run: |
+        docker tag ${{ secrets.AWS_FRONTEND_ECR }}:latest ${{ secrets.AWS_FRONTEND_ECR_URI }}:latest
+
+    # Push Docker image to ECR
+    - name: Push Docker image to ECR
+      run: |
+        docker push ${{ secrets.AWS_FRONTEND_ECR_URI }}:latest
