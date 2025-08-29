@@ -1,7 +1,7 @@
 # IaC + Terraform Core Ideas
-	•	IaC benefits: repeatability, versioning, automation, drift detection.
-	•	Terraform value: provider-agnostic, declarative model, state tracks reality.
-	•	Providers: downloaded on init from the Registry; versions pinned in .terraform.lock.hcl.
+- IaC benefits: repeatability, versioning, automation, drift detection.
+- Terraform value: provider-agnostic, declarative model, state tracks reality.
+- Providers: downloaded on init from the Registry; versions pinned in .terraform.lock.hcl.
 
 ⸻
 
